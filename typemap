@@ -1,0 +1,39 @@
+###############################################################################
+##
+##    Typemap for TextKyTea objects and vector< map<string, string> >
+##
+##    Copyright (c) pawa
+##    All rights reserved.
+##
+###############################################################################
+
+TYPEMAP
+TextKyTea *                      O_OBJECT
+vector< map<string, string> >    T_VECTOR_STRING_MAP
+
+OUTPUT
+T_VECTOR_STRING_MAP
+    AV *av = (AV*)sv_2mortal( (SV*)newAV() );
+
+    for (int i = 0; i < (int)$var.size(); ++i)
+    {
+        map<string, string> m = ($var)[i];
+        map<string, string>::iterator it = m.begin();
+
+        HV *hv = (HV*)sv_2mortal( (SV*)newHV() );
+
+        while ( it != m.end() )
+        {
+            const char* key   = (it->first).c_str();
+            const char* value = (it->second).c_str();
+            I32 klen          = (it->first).length();
+            I32 vlen          = (it->second).length();
+            SV* sv            = newSVpvn(value, vlen);
+            hv_store(hv, key, klen, sv, 0);
+            ++it;
+        }
+
+        av_push( av, newRV_inc((SV*)hv) );
+    }
+
+    $arg = sv_2mortal( newRV_inc((SV*)av) );

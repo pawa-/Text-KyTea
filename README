@@ -1,0 +1,42 @@
+NAME
+    Text::KyTea - Perl wrapper for KyTea
+
+SYNOPSIS
+      use Text::KyTea;
+
+      my $kytea   = Text::KyTea->new(model_path => '/usr/local/share/kytea/model.bin');
+      my $results = $kytea->parse("同情するなら金をくれ");
+
+      for my $result (@{$results})
+      {
+          print $result->{surface}, ",";
+          print $result->{feature}, ",";
+          print $result->{pron},    "\n";
+      }
+
+DESCRIPTION
+    This module works under KyTea Ver.0.3.2 or later.
+
+    Under old version of KyTea, this might not works.
+
+METHOD
+  new
+    Creates a new Text::KyTea instance.
+
+    You can specify KyTea's model path.
+
+    If you don't specify it, '/usr/local/share/kytea/model.bin' is specified
+    automatically.
+
+AUTHOR
+    pawa <pawapawa@cpan.org>
+
+SEE ALSO
+    http://www.phontron.com/kytea/
+
+LICENSE
+    Copyright (C) 2011 pawa All rights reserved.
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
