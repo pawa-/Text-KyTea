@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION);
@@ -25,6 +25,8 @@ sub new
 
 1;
 __END__
+
+=encoding utf8
 
 =head1 NAME
 
@@ -47,18 +49,25 @@ Text::KyTea - Perl wrapper for KyTea
 =head1 DESCRIPTION
 
 This module works under KyTea Ver.0.3.2 or later.
-
 Under old version of KyTea, this might not works.
 
-=head1 METHOD
+=head1 METHODS
 
-=head2 new
+=over 4
+
+=item new(model_path => $path)
 
 Creates a new Text::KyTea instance.
-
 You can specify KyTea's model path.
-
 If you don't specify it, '/usr/local/share/kytea/model.bin' is specified automatically.
+
+
+=item parse($text)
+
+Parses the given text via KyTea, and returns results of analysis.
+The results are returned as an array reference.
+
+=back
 
 =head1 AUTHOR
 

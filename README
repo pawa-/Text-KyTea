@@ -15,18 +15,18 @@ SYNOPSIS
       }
 
 DESCRIPTION
-    This module works under KyTea Ver.0.3.2 or later.
+    This module works under KyTea Ver.0.3.2 or later. Under old version of
+    KyTea, this might not works.
 
-    Under old version of KyTea, this might not works.
+METHODS
+    new(model_path => $path)
+        Creates a new Text::KyTea instance. You can specify KyTea's model
+        path. If you don't specify it, '/usr/local/share/kytea/model.bin' is
+        specified automatically.
 
-METHOD
-  new
-    Creates a new Text::KyTea instance.
-
-    You can specify KyTea's model path.
-
-    If you don't specify it, '/usr/local/share/kytea/model.bin' is specified
-    automatically.
+    parse($text)
+        Parses the given text via KyTea, and returns results of analysis.
+        The results are returned as an array reference.
 
 AUTHOR
     pawa <pawapawa@cpan.org>
