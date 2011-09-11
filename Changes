@@ -1,4 +1,7 @@
 Revision history for Perl extension Text::KyTea
 
+0.02    Sun Sep 11 12:42:10 2011 +0900
+        - fixed pod
+
 0.01    Tue Sep  6 02:09:33 2011
         - original version
