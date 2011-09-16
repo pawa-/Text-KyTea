@@ -10,6 +10,13 @@ extern "C" {
 }
 #endif
 
+#ifdef do_open
+#undef do_open
+#endif
+#ifdef do_close
+#undef do_close
+#endif
+
 #include <vector>
 #include <map>
 #include <string>
