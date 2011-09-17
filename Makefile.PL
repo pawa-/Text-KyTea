@@ -40,20 +40,23 @@ sub put_model_path
 {
     chomp(my $lib_path = `which kytea`);
 
-    if (!length $lib_path)
+    if ($lib_path !~ m|bin/kytea|)
+    {
+        chomp($lib_path = `whereis -b kytea`);
+    }
+
+    my $model_path;
+
+    if ($lib_path =~ m|(/.*)bin/kytea|)
+    {
+        $model_path = "${1}share/kytea/model.bin";
+    }
+    else
     {
         die "kytea command is not available.\n" .
             "if you changed install directory of KyTea,\n" .
             "please add KyTea's path to PATH environment variable\n";
     }
-
-    my $model_path;
-
-    if ($lib_path =~ m|(.*)bin/kytea|)
-    {
-        $model_path = "${1}share/kytea/model.bin";
-    }
-    else { die "unexpected KyTea path"; }
 
     open(my $fh, '>', './model_path') or die "failed to put model path";
     print {$fh} $model_path;
