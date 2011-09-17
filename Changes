@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::KyTea
 
+0.04    Sat, 17 Sep 2011 21:25:41 +0900
+        - fixed Makefile.PL
+
 0.03    Fri Sep 16 22:31:13 2011 +0900
         - fixed collisions between C++ macros and functions defined by perl (thanks to perlcodesample)
         - added valgrind.t
