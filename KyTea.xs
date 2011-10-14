@@ -101,7 +101,7 @@ public:
         for (int i = 0; i < (int)result.size(); ++i)
         {
             map<string, string> m = result[i];
-            map<string, string>::iterator it = m.begin();
+            map<string, string>::const_iterator it = m.begin();
 
             while ( it != m.end() )
             {
