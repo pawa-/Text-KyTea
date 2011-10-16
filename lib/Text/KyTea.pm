@@ -32,6 +32,9 @@ __END__
 
 Text::KyTea - Perl wrapper for KyTea
 
+=for test_synopsis
+my $text;
+
 =head1 SYNOPSIS
 
   use Text::KyTea;
