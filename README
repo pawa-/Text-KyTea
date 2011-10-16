@@ -5,24 +5,40 @@ SYNOPSIS
       use Text::KyTea;
 
       my $kytea   = Text::KyTea->new(model_path => '/usr/local/share/kytea/model.bin');
-      my $results = $kytea->parse("同情するなら金をくれ");
+      my $results = $kytea->parse($text);
 
       for my $result (@{$results})
       {
-          print $result->{surface}, ",";
-          print $result->{feature}, ",";
-          print $result->{pron},    "\n";
+          print $result->{surface};
+
+          for my $tags (@{$result->{tags}})
+          {
+              print "\t";
+
+              for my $tag (@{$tags})
+              {
+                  print " ", $tag->{feature}, "/", $tag->{score};
+              }
+          }
+
+          print "\n";
       }
 
 DESCRIPTION
     This module works under KyTea Ver.0.3.2 or later. Under old version of
     KyTea, this might not works.
 
+    For information about KyTea, please see the SEE ALSO.
+
 METHODS
     new(model_path => $path)
         Creates a new Text::KyTea instance. You can specify KyTea's model
         path. If you don't specify it, '/usr/local/share/kytea/model.bin' is
         specified automatically.
+
+    read_model($path)
+        Reads the given model file. The model file should be read by
+        new(model_path => $path) method.
 
     parse($text)
         Parses the given text via KyTea, and returns results of analysis.
