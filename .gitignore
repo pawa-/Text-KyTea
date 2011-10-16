@@ -11,5 +11,5 @@ MANIFEST.bak
 *.sw[po]
 *.bs
 *.c
+*.cpp
 *.o
-model_path

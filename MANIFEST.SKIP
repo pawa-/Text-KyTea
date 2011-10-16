@@ -11,6 +11,7 @@
 ^MakeMaker-\d
 \.gz$
 \.c$
+\.cpp$
 \.o$
 \.bs$
 \.cvsignore
