@@ -1,6 +1,6 @@
 Revision history for Perl extension Text::KyTea
 
-0.10    Mon, 17 Oct 2011 01:29:15 +0900
+0.10    Mon, 17 Oct 2011 03:03:27 +0900
         - changed API
         - fixed POD, Makefile.PL, basic.t
         - added leaktrace.t, parse.t, model/test.mod, read_model method
