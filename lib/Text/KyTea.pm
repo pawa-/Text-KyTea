@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.05';
+our $VERSION = '0.10';
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION);
@@ -18,7 +18,7 @@ sub new
         $args{model_path} = '/usr/local/share/kytea/model.bin';
     }
 
-    croak "model is not found" if ! -e $args{model_path};
+    croak 'model file is not found' if ! -e $args{model_path};
 
     return _init_text_kytea($class, \%args);
 }
@@ -37,19 +37,32 @@ Text::KyTea - Perl wrapper for KyTea
   use Text::KyTea;
 
   my $kytea   = Text::KyTea->new(model_path => '/usr/local/share/kytea/model.bin');
-  my $results = $kytea->parse("同情するなら金をくれ");
+  my $results = $kytea->parse($text);
 
   for my $result (@{$results})
   {
-      print $result->{surface}, ",";
-      print $result->{feature}, ",";
-      print $result->{pron},    "\n";
+      print $result->{surface};
+
+      for my $tags (@{$result->{tags}})
+      {
+          print "\t";
+
+          for my $tag (@{$tags})
+          {
+              print " ", $tag->{feature}, "/", $tag->{score};
+          }
+      }
+
+      print "\n";
   }
+
 
 =head1 DESCRIPTION
 
 This module works under KyTea Ver.0.3.2 or later.
 Under old version of KyTea, this might not works.
+
+For information about KyTea, please see the SEE ALSO.
 
 =head1 METHODS
 
@@ -60,6 +73,12 @@ Under old version of KyTea, this might not works.
 Creates a new Text::KyTea instance.
 You can specify KyTea's model path.
 If you don't specify it, '/usr/local/share/kytea/model.bin' is specified automatically.
+
+
+=item read_model($path)
+
+Reads the given model file.
+The model file should be read by new(model_path => $path) method.
 
 
 =item parse($text)
