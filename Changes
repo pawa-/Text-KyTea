@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::KyTea
 
+0.11    Mon, 17 Oct 2011 19:20:40 +0900
+        - cleaned some redundant code
+
 0.10    Mon, 17 Oct 2011 03:03:27 +0900
         - changed API
         - fixed POD, Makefile.PL, basic.t
