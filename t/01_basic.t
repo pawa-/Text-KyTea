@@ -8,6 +8,8 @@ isa_ok($kytea, 'Text::KyTea');
 
 can_ok('Text::KyTea', qw/parse read_model/);
 
+$kytea->read_model('./model/test.mod');
+
 my $results = $kytea->parse("コーパスの文です。");
 parse_test($results);
 
