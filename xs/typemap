@@ -8,39 +8,42 @@
 ###############################################################################
 
 TYPEMAP
-TextKyTea *     O_OBJECT
-TextKyTeaRet *  T_TEXT_KYTEA_RET
+TextKyTea *        O_OBJECT
+KyteaSentence *    T_KYTEA_SENTENCE
 
 
 OUTPUT
-T_TEXT_KYTEA_RET
+T_KYTEA_SENTENCE
+
     AV *av = (AV*)sv_2mortal( (SV*)newAV() );
 
-    for (int i = 0; i < (int)$var->surface.size(); ++i)
+    StringUtil* util = THIS->_get_string_util();
+
+    for (int i = 0; i < (int)$var->words.size(); ++i)
     {
         HV *hv = (HV*)sv_2mortal( (SV*)newHV() );
 
         string surf_key   = "surface";
-        string surf_value = $var->surface[i];
+        string surf_value = util->showString($var->words[i].surf);
 
         SV* sv = newSVpvn( surf_value.c_str(), surf_value.length() );
         hv_store(hv, surf_key.c_str(), surf_key.length(), sv, 0);
 
         AV *tags = (AV*)sv_2mortal( (SV*)newAV() );
 
-        for (int j = 0; j < (int)$var->tags[i].size(); ++j)
+        for (int j = 0; j < (int)$var->words[i].tags.size(); ++j)
         {
             AV *tag_pairs = (AV*)sv_2mortal( (SV*)newAV() );
 
-            for (int k = 0; k < (int)$var->tags[i][j].size(); ++k)
+            for (int k = 0; k < (int)$var->words[i].tags[j].size(); ++k)
             {
                 HV *tag = (HV*)sv_2mortal( (SV*)newHV() );
 
                 string feature_key   = "feature";
-                string feature_value = $var->tags[i][j][k].first;
+                string feature_value = util->showString($var->words[i].tags[j][k].first);
 
                 string score_key   = "score";
-                double score_value = $var->tags[i][j][k].second;
+                double score_value = $var->words[i].tags[j][k].second;
 
                 sv = newSVpvn( feature_value.c_str(), feature_value.length() );
                 hv_store(tag, feature_key.c_str(), feature_key.length(), sv, 0);
