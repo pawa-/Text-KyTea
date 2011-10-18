@@ -19,15 +19,16 @@ T_KYTEA_SENTENCE
 
     StringUtil* util = THIS->_get_string_util();
 
+    string keys[4] = {"surface", "feature", "score", "tags"};
+
     for (int i = 0; i < (int)$var->words.size(); ++i)
     {
         HV *hv = (HV*)sv_2mortal( (SV*)newHV() );
 
-        string surf_key   = "surface";
-        string surf_value = util->showString($var->words[i].surf);
+        string surface = util->showString($var->words[i].surf);
 
-        SV* sv = newSVpvn( surf_value.c_str(), surf_value.length() );
-        hv_store(hv, surf_key.c_str(), surf_key.length(), sv, 0);
+        SV* sv = newSVpvn( surface.c_str(), surface.length() );
+        hv_store(hv, keys[0].c_str(), keys[0].length(), sv, 0);
 
         AV *tags = (AV*)sv_2mortal( (SV*)newAV() );
 
@@ -39,17 +40,14 @@ T_KYTEA_SENTENCE
             {
                 HV *tag = (HV*)sv_2mortal( (SV*)newHV() );
 
-                string feature_key   = "feature";
-                string feature_value = util->showString($var->words[i].tags[j][k].first);
+                string feature = util->showString($var->words[i].tags[j][k].first);
+                double score   = $var->words[i].tags[j][k].second;
 
-                string score_key   = "score";
-                double score_value = $var->words[i].tags[j][k].second;
+                sv = newSVpvn( feature.c_str(), feature.length() );
+                hv_store(tag, keys[1].c_str(), keys[1].length(), sv, 0);
 
-                sv = newSVpvn( feature_value.c_str(), feature_value.length() );
-                hv_store(tag, feature_key.c_str(), feature_key.length(), sv, 0);
-
-                sv = newSVnv(score_value);
-                hv_store(tag, score_key.c_str(), score_key.length(), sv, 0);
+                sv = newSVnv(score);
+                hv_store(tag, keys[2].c_str(), keys[2].length(), sv, 0);
 
                 av_push( tag_pairs, newRV_inc((SV*)tag) );
             }
@@ -57,8 +55,7 @@ T_KYTEA_SENTENCE
             av_push( tags, newRV_inc((SV*)tag_pairs) );
         }
 
-        string tags_key = "tags";
-        hv_store(hv, tags_key.c_str(), tags_key.length(), newRV_inc((SV*)tags), 0);
+        hv_store(hv, keys[3].c_str(), keys[3].length(), newRV_inc((SV*)tags), 0);
 
         av_push( av, newRV_inc((SV*)hv) );
     }
