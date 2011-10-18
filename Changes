@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::KyTea
 
+0.12    Tue, 18 Oct 2011 14:41:55 +0900
+        - fixed typemap
+
 0.11    Mon, 17 Oct 2011 19:20:40 +0900
         - cleaned some redundant code
 
