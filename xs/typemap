@@ -19,7 +19,7 @@ T_KYTEA_SENTENCE
 
     StringUtil* util = THIS->_get_string_util();
 
-    string keys[4] = {"surface", "feature", "score", "tags"};
+    const string keys[4] = {"surface", "feature", "score", "tags"};
 
     for (int i = 0; i < (int)$var->words.size(); ++i)
     {
