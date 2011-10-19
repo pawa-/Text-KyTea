@@ -12,11 +12,11 @@ run
     my $block = shift;
     my $results = $kytea->parse($block->input);
 
-    my ($surf, $pron, $p_of_s) = split_results($results);
+    my ($surf, $pron, @p_of_s) = split_results($results);
 
-    is($surf,   $block->expected_surf);
-    is($pron,   $block->expected_pron);
-    is($p_of_s, $block->expected_p_of_s);
+    is($surf,     $block->expected_surf);
+    is($pron,     $block->expected_pron);
+    is("@p_of_s", $block->expected_p_of_s);
 };
 
 
@@ -24,24 +24,20 @@ sub split_results
 {
     my $results = shift;
 
-    my ($surf, $pron, $p_of_s);
+    my ($surf, $pron, @p_of_s);
 
     for my $result (@{$results})
     {
-        my $surface = $result->{surface};
-        $surf .= $surface;
+        $surf .= $result->{surface};
 
         my $p_of_s_tag = $result->{tags}[0];
-        $p_of_s .= $p_of_s_tag->[0]{feature};
-        $p_of_s .= ' ';
+        push(@p_of_s, $p_of_s_tag->[0]{feature});
 
         my $pron_tag = $result->{tags}[1];
         $pron .= $pron_tag->[0]{feature};
     }
 
-    $p_of_s =~ s/\s$//;
-
-    return ($surf, $pron, $p_of_s);
+    return ($surf, $pron, @p_of_s);
 }
 
 
