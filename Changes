@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::KyTea
 
+0.20    Sun, 23 Oct 2011 22:31:54 +0900
+        - added options
+        - added write_model method
+
 0.13    Wed, 19 Oct 2011 12:32:58 +0900
         - fixed leaktrace.t
         - fixed typemap
