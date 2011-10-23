@@ -5,7 +5,10 @@ plan tests => 3 * blocks;
 
 use Text::KyTea;
 
-my $kytea = Text::KyTea->new(model => './model/test.mod');
+my $kytea = Text::KyTea->new(
+    model  => './model/test.mod',
+    deftag => '(´・ω・｀)',
+);
 
 run
 {
@@ -53,3 +56,9 @@ __DATA__
 --- expected_surf:   もうひとつの文です。
 --- expected_pron:   もうひとつのぶんです。
 --- expected_p_of_s: 副詞 名詞 接尾辞 助詞 名詞 助動詞 語尾 補助記号
+
+===
+--- input:           XXYBA
+--- expected_surf:   XXYBA
+--- expected_pron:   (´・ω・｀)(´・ω・｀)(´・ω・｀)(´・ω・｀)(´・ω・｀)
+--- expected_p_of_s: (´・ω・｀) (´・ω・｀) (´・ω・｀) (´・ω・｀) (´・ω・｀)

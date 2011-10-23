@@ -4,7 +4,7 @@ NAME
 SYNOPSIS
       use Text::KyTea;
 
-      my $kytea   = Text::KyTea->new(model_path => '/usr/local/share/kytea/model.bin');
+      my $kytea   = Text::KyTea->new(%config);
       my $results = $kytea->parse($text);
 
       for my $result (@{$results})
@@ -25,24 +25,34 @@ SYNOPSIS
       }
 
 DESCRIPTION
-    This module works under KyTea Ver.0.3.2 or later. Under old version of
+    This module works under KyTea Ver.0.3.2 or later. Under old versions of
     KyTea, this might not works.
 
     For information about KyTea, please see the SEE ALSO.
 
 METHODS
-    new(model_path => $path)
-        Creates a new Text::KyTea instance. You can specify KyTea's model
-        path. If you don't specify it, '/usr/local/share/kytea/model.bin' is
-        specified automatically.
+    new(%config)
+        Creates a new Text::KyTea instance.
+
+          my $kytea = Text::KyTea->new(
+              model   => 'model.bin', # default is '/usr/local/share/kytea/model.bin'
+              notag   => '[1,2]',     # default is []
+              nounk   => 0,           # default is 0 (estimates the pronunciation of unkown words)
+              unkbeam => 50,          # default is 50
+              tagmax  => 3,           # default is 3
+              deftag  => 'UNK',       # default is 'UNK'
+              unktag  => '',          # default is ''
+          );
 
     read_model($path)
         Reads the given model file. The model file should be read by
-        new(model_path => $path) method.
+        new(model => $path) method.
 
     parse($text)
         Parses the given text via KyTea, and returns results of analysis.
         The results are returned as an array reference.
+
+    write_model($path)
 
 AUTHOR
     pawa <pawapawa@cpan.org>

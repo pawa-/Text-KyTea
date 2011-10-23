@@ -7,10 +7,10 @@ use Text::KyTea;
 
 no_leaks_ok
 {
-    my $kytea = Text::KyTea->new(model_path => './model/test.mod');
+    my $kytea = Text::KyTea->new(model => './model/test.mod');
 } "new";
 
-my $kytea = Text::KyTea->new(model_path => './model/test.mod');
+my $kytea = Text::KyTea->new(model => './model/test.mod');
 
 no_leaks_ok
 {
@@ -26,5 +26,13 @@ no_leaks_ok
 {
     $kytea->parse("");
 } "parse empty string";
+
+no_leaks_ok
+{
+    $kytea->write_model('./hoge.mod');
+} "write model";
+
+unlink('./hoge.mod');
+
 
 done_testing;

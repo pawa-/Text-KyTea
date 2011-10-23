@@ -3,10 +3,10 @@ use warnings;
 use Text::KyTea;
 use Test::More;
 
-my $kytea = Text::KyTea->new(model_path => './model/test.mod');
+my $kytea = Text::KyTea->new(model => './model/test.mod');
 isa_ok($kytea, 'Text::KyTea');
 
-can_ok('Text::KyTea', qw/parse read_model/);
+can_ok('Text::KyTea', qw/parse read_model write_model/);
 
 $kytea->read_model('./model/test.mod');
 

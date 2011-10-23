@@ -4,23 +4,55 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.13';
+our $VERSION = '0.20';
+
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION);
 
+sub _options
+{
+    return {
+        # analysis options
+        model   => '/usr/local/share/kytea/model.bin',
+        nows    => 0,
+        notags  => 0,
+        notag   => [],
+        nounk   => 0,
+        unkbeam => 50,
+
+        # I/O options
+        tagmax  => 3,
+        deftag  => 'UNK',
+        unktag  => '',
+
+        # advanced I/O options
+        wordbound => ' ',
+        tagbound  => '/',
+        elembound => '&',
+        unkbound  => ' ',
+        skipbound => '?',
+        nobound   => '-',
+        hasbound  => '|',
+    };
+}
+
 sub new
 {
-    my ($class, %args) = @_;
+    my $class = shift;
+    my %args  = (ref $_[0] eq 'HASH' ? %{$_[0]} : @_);
 
-    if (!length $args{model_path})
+    my $options = $class->_options;
+
+    for my $key (keys %args)
     {
-        $args{model_path} = '/usr/local/share/kytea/model.bin';
+        if (!exists $options->{$key}) { croak "Unknown option '$key'";  }
+        else                          { $options->{$key} = $args{$key}; }
     }
 
-    croak 'model file is not found' if ! -e $args{model_path};
+    croak 'model file is not found' if ! -e $options->{model};
 
-    return _init_text_kytea($class, \%args);
+    return _init_text_kytea($class, $options);
 }
 
 1;
@@ -33,13 +65,13 @@ __END__
 Text::KyTea - Perl wrapper for KyTea
 
 =for test_synopsis
-my $text;
+my ($text, %config, $path);
 
 =head1 SYNOPSIS
 
   use Text::KyTea;
 
-  my $kytea   = Text::KyTea->new(model_path => '/usr/local/share/kytea/model.bin');
+  my $kytea   = Text::KyTea->new(%config);
   my $results = $kytea->parse($text);
 
   for my $result (@{$results})
@@ -63,7 +95,7 @@ my $text;
 =head1 DESCRIPTION
 
 This module works under KyTea Ver.0.3.2 or later.
-Under old version of KyTea, this might not works.
+Under old versions of KyTea, this might not works.
 
 For information about KyTea, please see the SEE ALSO.
 
@@ -71,23 +103,35 @@ For information about KyTea, please see the SEE ALSO.
 
 =over 4
 
-=item new(model_path => $path)
+=item new(%config)
 
 Creates a new Text::KyTea instance.
-You can specify KyTea's model path.
-If you don't specify it, '/usr/local/share/kytea/model.bin' is specified automatically.
+
+  my $kytea = Text::KyTea->new(
+      model   => 'model.bin', # default is '/usr/local/share/kytea/model.bin'
+      notag   => '[1,2]',     # default is []
+      nounk   => 0,           # default is 0 (estimates the pronunciation of unkown words)
+      unkbeam => 50,          # default is 50
+      tagmax  => 3,           # default is 3
+      deftag  => 'UNK',       # default is 'UNK'
+      unktag  => '',          # default is ''
+  );
 
 
 =item read_model($path)
 
 Reads the given model file.
-The model file should be read by new(model_path => $path) method.
+The model file should be read by new(model => $path) method.
 
 
 =item parse($text)
 
 Parses the given text via KyTea, and returns results of analysis.
 The results are returned as an array reference.
+
+
+=item write_model($path)
+
 
 =back
 
