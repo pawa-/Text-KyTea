@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 
 require XSLoader;
@@ -109,7 +109,7 @@ Creates a new Text::KyTea instance.
 
   my $kytea = Text::KyTea->new(
       model   => 'model.bin', # default is '/usr/local/share/kytea/model.bin'
-      notag   => '[1,2]',     # default is []
+      notag   => [1,2],       # default is []
       nounk   => 0,           # default is 0 (estimates the pronunciation of unkown words)
       unkbeam => 50,          # default is 50
       tagmax  => 3,           # default is 3

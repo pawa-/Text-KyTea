@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::KyTea
 
+0.21    Mon, 24 Oct 2011 16:58:57 +0900
+        - fixed POD
+
 0.20    Sun, 23 Oct 2011 22:31:54 +0900
         - added options
         - added write_model method
