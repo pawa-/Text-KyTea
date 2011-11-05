@@ -101,6 +101,10 @@ requiring word or morpheme segmentation.
 This module works under KyTea Ver.0.3.2 or later.
 Under old versions of KyTea, this might not works.
 
+If you've changed default install directory of KyTea,
+please install Text::KyTea with interactive mode
+(e.g. cpanm --interactive or cpanm -v).
+
 For more information about KyTea, please see the SEE ALSO.
 
 

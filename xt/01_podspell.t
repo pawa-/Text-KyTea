@@ -9,3 +9,4 @@ pawa
 papawa@cpan.org
 Text::KyTea
 KyTea's
+cpanm
