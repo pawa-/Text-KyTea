@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.21';
+our $VERSION = '0.22';
 
 
 require XSLoader;
@@ -94,10 +94,15 @@ my ($text, %config, $path);
 
 =head1 DESCRIPTION
 
+KyTea is a general toolkit developed for analyzing text,
+with a focus on Japanese, Chinese and other languages
+requiring word or morpheme segmentation.
+
 This module works under KyTea Ver.0.3.2 or later.
 Under old versions of KyTea, this might not works.
 
-For information about KyTea, please see the SEE ALSO.
+For more information about KyTea, please see the SEE ALSO.
+
 
 =head1 METHODS
 
@@ -122,6 +127,8 @@ Creates a new Text::KyTea instance.
 
 Reads the given model file.
 The model file should be read by new(model => $path) method.
+
+Model files are available at http://www.phontron.com/kytea/model.html
 
 
 =item parse($text)
