@@ -9,7 +9,7 @@ name     'Text-KyTea';
 all_from 'lib/Text/KyTea.pm';
 
 requires       'Carp';
-build_requires 'Devel::CheckLib';
+#build_requires 'Devel::CheckLib';
 test_requires  'Test::More' => 0.88; # done_testing
 test_requires  'Test::Base';
 
@@ -57,8 +57,8 @@ sub contents_of
     my $dir = shift;
 
     opendir(my $dh, $dir) or die "can't open $dir: $!";
-    my @files = readdir $dh;
+    my @contents = readdir $dh;
     closedir($dh);
 
-    return @files;
+    return @contents;
 }
