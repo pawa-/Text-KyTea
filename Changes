@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::KyTea
 
+0.23    Sun, 06 Nov 2011 09:27:14 +0900
+        - removed build dependency on Devel::CheckLib
+
 0.22    Sun, 06 Nov 2011 02:31:25 +0900
         - fixed Makefile.PL
         - fixed POD
