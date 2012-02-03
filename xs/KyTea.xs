@@ -24,7 +24,7 @@ extern "C" {
 using namespace std;
 using namespace kytea;
 
-const string tkt_keys[4] = {"surface", "feature", "score", "tags"};
+static const string tkt_keys[4] = {"surface", "feature", "score", "tags"};
 
 class TextKyTea
 {
@@ -35,7 +35,6 @@ private:
     KyteaSentence  sentence;
 public:
     void        read_model(const char* model)     { kytea.readModel(model); }
-    void        write_model(const char* filename) { kytea.writeModel(filename); }
     void        train_all()                       { kytea.trainAll(); }
     void        analyze()                         { kytea.analyze(); }
     StringUtil* _get_string_util()                { return util; }
@@ -130,9 +129,6 @@ _init_text_kytea(char* CLASS, SV* args_ref)
 
 void
 TextKyTea::read_model(const char* model)
-
-void
-TextKyTea::write_model(const char* filename)
 
 KyteaSentence*
 TextKyTea::parse(const char* str)

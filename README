@@ -29,8 +29,8 @@ DESCRIPTION
     Japanese, Chinese and other languages requiring word or morpheme
     segmentation.
 
-    This module works under KyTea Ver.0.3.2 or later. Under old versions of
-    KyTea, this might not works.
+    This module works under KyTea Ver.0.4.x. Under old versions of KyTea,
+    this might not works.
 
     If you've changed default install directory of KyTea, please install
     Text::KyTea with interactive mode (e.g. cpanm --interactive or cpanm
@@ -63,8 +63,6 @@ METHODS
         Parses the given text via KyTea, and returns results of analysis.
         The results are returned as an array reference.
 
-    write_model($path)
-
 AUTHOR
     pawa <pawapawa@cpan.org>
 
@@ -72,7 +70,7 @@ SEE ALSO
     http://www.phontron.com/kytea/
 
 LICENSE
-    Copyright (C) 2011 pawa All rights reserved.
+    Copyright (C) 2012 pawa All rights reserved.
 
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

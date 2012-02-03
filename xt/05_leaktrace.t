@@ -22,17 +22,12 @@ no_leaks_ok
     $kytea->parse("ほげほげ");
 } "parse normal string";
 
+=begin
 no_leaks_ok
 {
     $kytea->parse("");
 } "parse empty string";
-
-no_leaks_ok
-{
-    $kytea->write_model('./hoge.mod');
-} "write model";
-
-unlink('./hoge.mod');
-
+=end
+=cut
 
 done_testing;
