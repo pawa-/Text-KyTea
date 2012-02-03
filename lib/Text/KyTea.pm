@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.23';
+our $VERSION = '0.23_1';
 
 
 require XSLoader;
@@ -98,7 +98,7 @@ KyTea is a general toolkit developed for analyzing text,
 with a focus on Japanese, Chinese and other languages
 requiring word or morpheme segmentation.
 
-This module works under KyTea Ver.0.3.2 or later.
+This module works under KyTea Ver.0.4.x.
 Under old versions of KyTea, this might not works.
 
 If you've changed default install directory of KyTea,
@@ -141,9 +141,6 @@ Parses the given text via KyTea, and returns results of analysis.
 The results are returned as an array reference.
 
 
-=item write_model($path)
-
-
 =back
 
 =head1 AUTHOR
@@ -156,7 +153,7 @@ http://www.phontron.com/kytea/
 
 =head1 LICENSE
 
-Copyright (C) 2011 pawa All rights reserved.
+Copyright (C) 2012 pawa All rights reserved.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

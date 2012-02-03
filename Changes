@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::KyTea
 
+0.23_1  Fri, 03 Feb 2012 10:28:57 +0900
+        - removed write_model_method
+        - updated model/test.mod from KyTea Ver.0.3.x model to KyTea Ver.0.4.x model
+
 0.23    Sun, 06 Nov 2011 09:27:14 +0900
         - removed build dependency on Devel::CheckLib
 
