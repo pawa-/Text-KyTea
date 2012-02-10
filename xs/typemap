@@ -8,8 +8,9 @@
 ###############################################################################
 
 TYPEMAP
-TextKyTea *        O_OBJECT
-KyteaSentence *    T_KYTEA_SENTENCE
+text_kytea_TextKyTea *   O_OBJECT
+kytea_KyteaSentence *    T_KYTEA_SENTENCE
+const char * const       T_PV
 
 
 OUTPUT
@@ -17,33 +18,33 @@ T_KYTEA_SENTENCE
 
     AV* av = (AV*)sv_2mortal( (SV*)newAV() );
 
-    StringUtil* util = THIS->_get_string_util();
+    kytea::StringUtil* util = THIS->_get_string_util();
 
-    for (int i = 0; i < (int)$var->words.size(); ++i)
+    for (size_t i = 0; i < $var->words.size(); ++i)
     {
         HV* hv = (HV*)sv_2mortal( (SV*)newHV() );
 
-        string surface = util->showString($var->words[i].surf);
+        std::string surface = util->showString($var->words[i].surf);
 
         SV* sv = newSVpvn( surface.c_str(), surface.length() );
-        hv_store(hv, tkt_keys[0].c_str(), tkt_keys[0].length(), sv, 0);
+        hv_store(hv, text_kytea::tkt_keys[0].c_str(), text_kytea::tkt_keys[0].length(), sv, 0);
 
         AV* tags = (AV*)sv_2mortal( (SV*)newAV() );
 
-        for (int j = 0; j < (int)$var->words[i].tags.size(); ++j)
+        for (size_t j = 0; j < $var->words[i].tags.size(); ++j)
         {
             AV* tag_pairs = (AV*)sv_2mortal( (SV*)newAV() );
 
-            for (int k = 0; k < (int)$var->words[i].tags[j].size(); ++k)
+            for (size_t k = 0; k < $var->words[i].tags[j].size(); ++k)
             {
                 HV* tag = (HV*)sv_2mortal( (SV*)newHV() );
 
-                string feature = util->showString($var->words[i].tags[j][k].first);
-                double score   = $var->words[i].tags[j][k].second;
+                std::string feature = util->showString($var->words[i].tags[j][k].first);
+                double score = $var->words[i].tags[j][k].second;
 
                 sv = newSVpvn( feature.c_str(), feature.length() );
-                hv_store(tag, tkt_keys[1].c_str(), tkt_keys[1].length(), sv, 0);
-                hv_store(tag, tkt_keys[2].c_str(), tkt_keys[2].length(), newSVnv(score), 0);
+                hv_store(tag, text_kytea::tkt_keys[1].c_str(), text_kytea::tkt_keys[1].length(), sv, 0);
+                hv_store(tag, text_kytea::tkt_keys[2].c_str(), text_kytea::tkt_keys[2].length(), newSVnv(score), 0);
 
                 av_push( tag_pairs, newRV_inc((SV*)tag) );
             }
@@ -51,7 +52,7 @@ T_KYTEA_SENTENCE
             av_push( tags, newRV_inc((SV*)tag_pairs) );
         }
 
-        hv_store(hv, tkt_keys[3].c_str(), tkt_keys[3].length(), newRV_inc((SV*)tags), 0);
+        hv_store(hv, text_kytea::tkt_keys[3].c_str(), text_kytea::tkt_keys[3].length(), newRV_inc((SV*)tags), 0);
 
         av_push( av, newRV_inc((SV*)hv) );
     }
