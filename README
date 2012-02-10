@@ -3,6 +3,7 @@ NAME
 
 SYNOPSIS
       use Text::KyTea;
+      use utf8;
 
       my $kytea   = Text::KyTea->new(%config);
       my $results = $kytea->parse($text);
@@ -29,14 +30,14 @@ DESCRIPTION
     Japanese, Chinese and other languages requiring word or morpheme
     segmentation.
 
-    This module works under KyTea Ver.0.4.x. Under old versions of KyTea,
-    this might not works.
+    This module works under KyTea Ver.0.3.2 and later. Under old versions of
+    KyTea, this might not work.
 
     If you've changed default install directory of KyTea, please install
-    Text::KyTea with interactive mode (e.g. cpanm --interactive or cpanm
+    Text::KyTea with interactive mode (e.g., cpanm --interactive or cpanm
     -v).
 
-    For more information about KyTea, please see the SEE ALSO.
+    For more information about KyTea, please see the "SEE ALSO" section.
 
 METHODS
     new(%config)
@@ -44,6 +45,7 @@ METHODS
 
           my $kytea = Text::KyTea->new(
               model   => 'model.bin', # default is '/usr/local/share/kytea/model.bin'
+              h2z     => 0,           # default is 1 (enable)
               notag   => [1,2],       # default is []
               nounk   => 0,           # default is 0 (estimates the pronunciation of unkown words)
               unkbeam => 50,          # default is 50
@@ -51,6 +53,10 @@ METHODS
               deftag  => 'UNK',       # default is 'UNK'
               unktag  => '',          # default is ''
           );
+
+    new(h2z => 1)
+        Converts $text from hankaku to zenkaku before parsing $text. This
+        option improves the parsing accuracy in most of model files.
 
     read_model($path)
         Reads the given model file. The model file should be read by
