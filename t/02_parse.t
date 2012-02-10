@@ -1,11 +1,18 @@
+use utf8;
 use strict;
 use warnings;
 use Test::Base;
 plan tests => 3 * blocks;
 
+binmode Test::More->builder->$_ => ':utf8'
+    for qw(output failure_output todo_output);
+
 use Text::KyTea;
 
-my $kytea = Text::KyTea->new(model => './model/test.mod');
+my $kytea = Text::KyTea->new(
+    model => './model/test.mod',
+    h2z   => 0,
+);
 
 run
 {
@@ -53,3 +60,9 @@ __DATA__
 --- expected_surf:   もうひとつの文です。
 --- expected_pron:   もうひとつのぶんです。
 --- expected_p_of_s: 副詞 名詞 接尾辞 助詞 名詞 助動詞 語尾 補助記号
+
+===
+--- input:           2012
+--- expected_surf:   2012
+--- expected_pron:   UNK
+--- expected_p_of_s: UNK
