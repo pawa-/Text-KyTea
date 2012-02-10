@@ -10,3 +10,5 @@ papawa@cpan.org
 Text::KyTea
 KyTea's
 cpanm
+hankaku
+zenkaku
