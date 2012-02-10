@@ -1,17 +1,22 @@
 use inc::Module::Install;
 use Module::Install::XSUtil;
 
-my $LIB_PATH = prompt("Path to lib directory of KyTea", '/usr/local/lib');
+my $LIB_PATH = prompt("Path to lib directory of KyTea",     '/usr/local/lib');
 my $INC_PATH = prompt("Path to include directory of KyTea", '/usr/local/include');
+my $BIN_PATH = prompt("Path to bin directory of KyTea",     '/usr/local/bin');
 my %config   = (LIBS => "-L$LIB_PATH -lkytea", INC => "-I$INC_PATH");
+my $MODEL_FILE_PATH = './model/test.mod';
 
 name     'Text-KyTea';
 all_from 'lib/Text/KyTea.pm';
 
 requires       'Carp';
+requires       'Data::Recursive::Encode'      => 0.03;
+requires       'Lingua::JA::Regular::Unicode' => 0.04;
 #build_requires 'Devel::CheckLib';
 test_requires  'Test::More' => 0.88; # done_testing
 test_requires  'Test::Base';
+test_requires  'Test::Exception';
 
 requires_cplusplus;
 cc_src_paths 'xs';
@@ -20,6 +25,7 @@ cc_warnings;
 simple_check_lib($LIB_PATH, $INC_PATH);
 cc_libs $config{LIBS};
 cc_include_paths $INC_PATH;
+train_kytea();
 use_ppport 3.20;
 
 tests 't/*.t';
@@ -36,15 +42,25 @@ resources(
 WriteAll;
 
 
+sub train_kytea
+{
+    unlink $MODEL_FILE_PATH;
+    print "train kytea ...\n";
+
+    qx($BIN_PATH/train-kytea -full ./model/test.txt -model $MODEL_FILE_PATH);
+
+    if (-e $MODEL_FILE_PATH) { print "train-kytea ok\n"; }
+    else                     { die   "train-kytea not ok\n"; }
+}
+
 sub simple_check_lib
 {
-    # In the case of using cc_assert_lib,
-    # if you change install directory of KyTea,
+    # If you change install directory of KyTea,
     # you have to set LD_LIBRARY_PATH of KyTea.
     # Otherwise cc_assert_lib causes an error.
     # But you can use Text::KyTea without setting
     # LD_LIBRARY_PATH indeed.
-    # So, I wrote this subroutine instead.
+    # Because of this, I wrote this simple subroutine.
 
     my ($lib_path, $inc_path) = @_;
 
