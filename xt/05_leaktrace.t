@@ -10,7 +10,10 @@ no_leaks_ok
     my $kytea = Text::KyTea->new(model => './model/test.mod');
 } "new";
 
-my $kytea = Text::KyTea->new(model => './model/test.mod');
+my $kytea = Text::KyTea->new(
+    model => './model/test.mod',
+    h2z   => 0
+);
 
 no_leaks_ok
 {
@@ -29,5 +32,15 @@ no_leaks_ok
 } "parse empty string";
 =end
 =cut
+
+$kytea = Text::KyTea->new(
+    model => './model/test.mod',
+    h2z   => 1,
+);
+
+no_leaks_ok
+{
+    $kytea->parse("ｈｕｇａ＃！＠＜＞");
+} "parse abnormal string";
 
 done_testing;
