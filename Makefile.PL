@@ -57,15 +57,15 @@ sub simple_check_lib
 {
     # If you change install directory of KyTea,
     # you have to set LD_LIBRARY_PATH of KyTea.
-    # Otherwise cc_assert_lib causes an error.
+    # Otherwise, cc_assert_lib causes an error.
     # But you can use Text::KyTea without setting
     # LD_LIBRARY_PATH indeed.
     # Because of this, I wrote this simple subroutine.
 
     my ($lib_path, $inc_path) = @_;
 
-    die "wrong lib directory of KyTea!" if !grep { $_ =~ /libkytea\.so/ } contents_of($lib_path);
-    die "wrong include directory of KyTea!" if !grep { $_ =~ /kytea/ } contents_of($inc_path);
+    die "wrong lib directory of KyTea!"     unless grep { /libkytea\.so/ } contents_of($lib_path);
+    die "wrong include directory of KyTea!" unless grep { /kytea/ }        contents_of($inc_path);
 }
 
 sub contents_of

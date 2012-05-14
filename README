@@ -30,14 +30,15 @@ DESCRIPTION
     Japanese, Chinese and other languages requiring word or morpheme
     segmentation.
 
-    This module works under KyTea Ver.0.3.2 and later. Under old versions of
-    KyTea, this might not work.
+    This module works under KyTea Ver.0.3.2 and later. Under the old
+    versions of KyTea, this might not work.
 
-    If you've changed default install directory of KyTea, please install
-    Text::KyTea with interactive mode (e.g., cpanm --interactive or cpanm
+    If you've changed the default install directory of KyTea, please install
+    Text::KyTea with a interactive mode (e.g., cpanm --interactive or cpanm
     -v).
 
-    For more information about KyTea, please see the "SEE ALSO" section.
+    For more information about KyTea, please see the "SEE ALSO" section of
+    this page.
 
 METHODS
     new(%config)
@@ -66,8 +67,8 @@ METHODS
         http://www.phontron.com/kytea/model.html
 
     parse($text)
-        Parses the given text via KyTea, and returns results of analysis.
-        The results are returned as an array reference.
+        Parses the given text via KyTea, and returns the results of the
+        analysis. The results are returned as an array reference.
 
 AUTHOR
     pawa <pawapawa@cpan.org>

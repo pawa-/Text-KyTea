@@ -1,12 +1,14 @@
 package Text::KyTea;
+
 use 5.008_001;
 use strict;
 use warnings;
-use Carp;
+
+use Carp ();
 use Data::Recursive::Encode;
 use Lingua::JA::Regular::Unicode qw/alnum_h2z space_h2z katakana_h2z/;
 
-our $VERSION = '0.30';
+our $VERSION = '0.31';
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION);
@@ -49,11 +51,11 @@ sub new
 
     for my $key (keys %args)
     {
-        if (!exists $options->{$key}) { croak "Unknown option '$key'";  }
+        if (!exists $options->{$key}) { Carp::croak "Unknown option '$key'";  }
         else                          { $options->{$key} = $args{$key}; }
     }
 
-    croak 'model file is not found' if ! -e $options->{model};
+    Carp::croak 'model file is not found' if ! -e $options->{model};
 
     return _init_text_kytea($class, $options);
 }
@@ -133,13 +135,13 @@ with a focus on Japanese, Chinese and other languages
 requiring word or morpheme segmentation.
 
 This module works under KyTea Ver.0.3.2 and later.
-Under old versions of KyTea, this might not work.
+Under the old versions of KyTea, this might not work.
 
-If you've changed default install directory of KyTea,
-please install Text::KyTea with interactive mode
+If you've changed the default install directory of KyTea,
+please install Text::KyTea with a interactive mode
 (e.g., cpanm --interactive or cpanm -v).
 
-For more information about KyTea, please see the "SEE ALSO" section.
+For more information about KyTea, please see the "SEE ALSO" section of this page.
 
 
 =head1 METHODS
@@ -178,7 +180,7 @@ Model files are available at http://www.phontron.com/kytea/model.html
 
 =item parse($text)
 
-Parses the given text via KyTea, and returns results of analysis.
+Parses the given text via KyTea, and returns the results of the analysis.
 The results are returned as an array reference.
 
 

@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::KyTea
 
+0.31    Mon, 14 May 2012 19:25:21 +0900
+        - fixed documentation
+        - improved namespace pollutions
+
 0.30    Fri, 10 Feb 2012 18:23:29 +0900
         - added h2z option (thanks to Shinsuke MORI of Kyoto University)
         - added t/03_h2z.t, t/04_parse_h2z.t, t/08_exception.t
