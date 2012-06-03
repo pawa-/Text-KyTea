@@ -1,5 +1,12 @@
 Revision history for Perl extension Text::KyTea
 
+0.40    Sun, 03 Jun 2012 20:48:11 +0900
+        (This version supports KyTea Ver.0.4.2 and later.)
+
+        - removed h2z option (KyTea Ver.0.4.2 and later support this function)
+          - removed dependencies on Data::Recursive and Lingua::JA::Regular::Unicode
+        - replaced Test::Extension with Test::Fatal
+
 0.31    Mon, 14 May 2012 19:25:21 +0900
         - fixed documentation
         - improved namespace pollutions
