@@ -1,4 +1,3 @@
-use utf8;
 use strict;
 use warnings;
 use Text::KyTea;

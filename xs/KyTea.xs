@@ -34,26 +34,21 @@ namespace text_kytea
             kytea::Kytea          kytea;
             kytea::StringUtil*    util;
             kytea::KyteaConfig*   config;
-            kytea::KyteaSentence  sentence;
-            bool                  h2z_enable;
         public:
             void                read_model(const char* const model)  { kytea.readModel(model); }
-            void                train_all()                          { kytea.trainAll(); }
-            void                analyze()                            { kytea.analyze(); }
             kytea::StringUtil*  _get_string_util()                   { return util; }
-            bool                _is_h2z_enable()                     { return h2z_enable; }
 
-            void _init(
-                    const char* const model,      const bool h2z,                const bool nows,
-                    const bool notags,            const std::vector<int> notag,  const bool nounk,
-                    const unsigned int unkbeam,   const unsigned int tagmax,     const char* const deftag,
-                    const char* const unktag,     const char* const wordbound,   const char* const tagbound,
-                    const char* const elembound,  const char* const unkbound,    const char* const skipbound,
-                    const char* const nobound,    const char* const hasbound
-                    )
+            void _init
+            (
+                const char* const model,       const bool nows,               const bool notags,
+                const std::vector<int> notag,  const bool nounk,              const unsigned int unkbeam,
+                const unsigned int tagmax,     const char* const deftag,      const char* const unktag,
+                const char* const wordbound,   const char* const tagbound,    const char* const elembound,
+                const char* const unkbound,    const char* const skipbound,   const char* const nobound,
+                const char* const hasbound
+            )
             {
                 read_model(model);
-                h2z_enable = h2z;
                 util   = kytea.getStringUtil();
                 config = kytea.getConfig();
 
@@ -77,15 +72,16 @@ namespace text_kytea
                 config->setNoBound(nobound);
                 config->setHasBound(hasbound);
             }
-            kytea_KyteaSentence* _parse(const char* const text)
+            kytea_KyteaSentence parse(const char* const text)
             {
-                sentence = util->mapString(text);
+                kytea::KyteaString surface_string = util->mapString(text);
+                kytea::KyteaSentence sentence( surface_string, util->normalize(surface_string) );
                 kytea.calculateWS(sentence);
 
                 for (int i = 0; i < config->getNumTags(); ++i)
                     if ( config->getDoTag(i) ) kytea.calculateTags(sentence, i);
 
-                return &sentence;
+                return sentence;
             }
     };
 }
@@ -113,7 +109,6 @@ _init_text_kytea(const char* const CLASS, SV* args_ref)
 
         tkt->_init(
             SvPV_nolen( *hv_fetchs(hv, "model", FALSE) ),
-            SvUV( *hv_fetchs(hv, "h2z",     FALSE) ),
             SvUV( *hv_fetchs(hv, "nows",    FALSE) ),
             SvUV( *hv_fetchs(hv, "notags",  FALSE) ),
             notag_vec,
@@ -140,8 +135,5 @@ _init_text_kytea(const char* const CLASS, SV* args_ref)
 void
 text_kytea_TextKyTea::read_model(const char* const model)
 
-bool
-text_kytea_TextKyTea::_is_h2z_enable()
-
-kytea_KyteaSentence*
-text_kytea_TextKyTea::_parse(const char* const text)
+kytea_KyteaSentence
+text_kytea_TextKyTea::parse(const char* const text)

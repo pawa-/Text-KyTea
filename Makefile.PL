@@ -11,12 +11,10 @@ name     'Text-KyTea';
 all_from 'lib/Text/KyTea.pm';
 
 requires       'Carp';
-requires       'Data::Recursive::Encode'      => 0.03;
-requires       'Lingua::JA::Regular::Unicode' => 0.04;
 #build_requires 'Devel::CheckLib';
 test_requires  'Test::More' => 0.88; # done_testing
 test_requires  'Test::Base';
-test_requires  'Test::Exception';
+test_requires  'Test::Fatal';
 
 requires_cplusplus;
 cc_src_paths 'xs';
@@ -28,7 +26,7 @@ cc_include_paths $INC_PATH;
 train_kytea();
 use_ppport 3.20;
 
-tests 't/*.t';
+tests        't/*.t';
 author_tests 'xt';
 
 readme_from 'lib/Text/KyTea.pm';

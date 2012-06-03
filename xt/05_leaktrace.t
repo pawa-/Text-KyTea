@@ -5,15 +5,17 @@ use Test::More;
 
 use Text::KyTea;
 
+my $kytea;
+
 no_leaks_ok
 {
-    my $kytea = Text::KyTea->new(model => './model/test.mod');
+    $kytea = Text::KyTea->new(model => './model/test.mod');
 } "new";
 
-my $kytea = Text::KyTea->new(
-    model => './model/test.mod',
-    h2z   => 0
-);
+no_leaks_ok
+{
+    $kytea->parse("ほげほげ");
+} "parse normal string";
 
 no_leaks_ok
 {
@@ -22,25 +24,12 @@ no_leaks_ok
 
 no_leaks_ok
 {
-    $kytea->parse("ほげほげ");
-} "parse normal string";
-
-=begin
-no_leaks_ok
-{
     $kytea->parse("");
 } "parse empty string";
-=end
-=cut
-
-$kytea = Text::KyTea->new(
-    model => './model/test.mod',
-    h2z   => 1,
-);
 
 no_leaks_ok
 {
-    $kytea->parse("ｈｕｇａ＃！＠＜＞");
+    $kytea->parse("ｈｕｇａ＃！＠＜＞\t\n");
 } "parse abnormal string";
 
 done_testing;

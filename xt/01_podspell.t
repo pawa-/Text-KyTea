@@ -8,7 +8,4 @@ __DATA__
 pawa
 papawa@cpan.org
 Text::KyTea
-KyTea's
 cpanm
-hankaku
-zenkaku

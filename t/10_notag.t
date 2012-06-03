@@ -1,11 +1,7 @@
-use utf8;
 use strict;
 use warnings;
 use Test::Base;
 plan tests => 6 * blocks;
-
-binmode Test::More->builder->$_ => ':utf8'
-    for qw(output failure_output todo_output);
 
 use Text::KyTea;
 

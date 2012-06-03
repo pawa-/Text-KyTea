@@ -1,4 +1,3 @@
-use utf8;
 use strict;
 use warnings;
 use Test::Base;
@@ -8,7 +7,6 @@ use Text::KyTea;
 
 my $kytea = Text::KyTea->new(
     model  => './model/test.mod',
-    h2z    => 1,
     deftag => '(´・ω・｀)',
 );
 
@@ -19,9 +17,9 @@ run
 
     my ($surf, $pron, @p_of_s) = split_results($results);
 
-    is($surf,     $block->expected_surf);
-    is($pron,     $block->expected_pron);
-    is("@p_of_s", $block->expected_p_of_s);
+    is($surf,     $block->expected_surf,   'surf');
+    is($pron,     $block->expected_pron,   'pron');
+    is("@p_of_s", $block->expected_p_of_s, 'pos');
 };
 
 
@@ -62,5 +60,5 @@ __DATA__
 ===
 --- input:           XXYBA
 --- expected_surf:   XXYBA
---- expected_pron:   (´・ω・｀)
---- expected_p_of_s: (´・ω・｀)
+--- expected_pron:   (´・ω・｀)(´・ω・｀)(´・ω・｀)(´・ω・｀)(´・ω・｀)
+--- expected_p_of_s: (´・ω・｀) (´・ω・｀) (´・ω・｀) (´・ω・｀) (´・ω・｀)

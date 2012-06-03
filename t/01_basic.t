@@ -1,4 +1,3 @@
-use utf8;
 use strict;
 use warnings;
 use Text::KyTea;
@@ -6,6 +5,8 @@ use Test::More;
 
 my $kytea = Text::KyTea->new(model => './model/test.mod');
 isa_ok($kytea, 'Text::KyTea');
+
+$kytea = Text::KyTea->new({ model => './model/test.mod' });
 
 can_ok('Text::KyTea', qw/parse read_model/);
 
@@ -15,14 +16,9 @@ my $results = $kytea->parse("コーパスの文です。");
 parse_test($results);
 
 
-# Ver.0.3.2: PASS.
-# Ver.0.4.0: FAIL (std::bad_alloc).
-=begin
 $results = $kytea->parse("");
-is(scalar @{$results}, 0);
+is(scalar @{$results}, 0, 'empty input');
 parse_test($results);
-=end
-=cut
 
 
 done_testing;
