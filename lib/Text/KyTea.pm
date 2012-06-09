@@ -138,7 +138,7 @@ The results are returned as an array reference.
 Reads the given model file.
 The model file should be read by new(model => $path) method.
 
-Model files are available at http://www.phontron.com/kytea/model.html
+Model files are available at L<http://www.phontron.com/kytea/model.html>.
 
 
 =head1 AUTHOR

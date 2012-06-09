@@ -61,7 +61,7 @@ METHODS
     Reads the given model file. The model file should be read by new(model
     => $path) method.
 
-    Model files are available at http://www.phontron.com/kytea/model.html
+    Model files are available at <http://www.phontron.com/kytea/model.html>.
 
 AUTHOR
     pawa <pawapawa@cpan.org>
