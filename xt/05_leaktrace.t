@@ -29,7 +29,7 @@ no_leaks_ok
 
 no_leaks_ok
 {
-    $kytea->parse("ｈｕｇａ＃！＠＜＞\t\n");
+    $kytea->parse("ｈｕｇａ＃！＠＜＞\x{0000}\t\n");
 } "parse abnormal string";
 
 done_testing;

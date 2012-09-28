@@ -57,7 +57,7 @@ namespace text_kytea
 
                 std::vector<int>::const_iterator iter;
                 for (iter = notag.begin(); iter != notag.end(); ++iter)
-                    if (*iter > 0) config->setDoTag(*iter - 1, false);
+                    if (*iter > 0) config->setDoTag( (*iter) - 1, false );
 
                 config->setDoUnk(!nounk);
                 config->setUnkBeam(unkbeam);

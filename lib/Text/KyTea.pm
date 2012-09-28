@@ -101,7 +101,7 @@ with a focus on Japanese, Chinese and other languages
 requiring word or morpheme segmentation.
 
 This module works under KyTea Ver.0.4.2 and later.
-Under the old versions of KyTea, this does not work!
+Under the old versions of KyTea, this module does not work!
 
 If you've changed the default install directory of KyTea,
 please install Text::KyTea with a interactive mode
@@ -151,7 +151,7 @@ L<http://www.phontron.com/kytea/>
 
 =head1 LICENSE
 
-Copyright (C) 2012 pawa All rights reserved.
+Copyright (C) pawa All rights reserved.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

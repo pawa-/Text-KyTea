@@ -37,7 +37,7 @@ sub parse_test
             for my $tag (@{$tags})
             {
                 unlike($tag->{feature}, qr/[0-9\.\-]/);
-                like($tag->{score}, qr/[0-9\.\-]/);
+                like($tag->{score}, qr/^[0-9\.\-]+$/);
             }
         }
     }
