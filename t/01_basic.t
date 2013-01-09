@@ -2,23 +2,56 @@ use strict;
 use warnings;
 use Text::KyTea;
 use Test::More;
+use Test::Fatal;
+use Test::Warn;
 
-my $kytea = Text::KyTea->new(model => './model/test.mod');
-isa_ok($kytea, 'Text::KyTea');
+can_ok('Text::KyTea', qw/new parse read_model pron/);
 
-$kytea = Text::KyTea->new({ model => './model/test.mod' });
+subtest 'new method' => sub {
+    my $kytea;
+    is( exception{ $kytea = Text::KyTea->new;                                 }, undef, 'model: default'          );
+    is( exception{ $kytea = Text::KyTea->new(model => './model/test.mod')     }, undef, 'model: ./model/test.mod' );
+    is( exception{ $kytea = Text::KyTea->new({ model => './model/test.mod' }) }, undef, 'model: ./model/test.mod (hashref)' );
+    isa_ok($kytea, 'Text::KyTea');
 
-can_ok('Text::KyTea', qw/parse read_model/);
+    like( exception{ $kytea = Text::KyTea->new(model => 'のっふぁん') }, qr/^model file not found/,  'model: not found' );
+    like( exception{ $kytea = Text::KyTea->new(h2z   => 1)            }, qr/^Unknown option: 'h2z'/, 'unknown option'   );
+};
 
-$kytea->read_model('./model/test.mod');
+subtest 'read_model method' => sub {
+    my $kytea = Text::KyTea->new(model => './model/test.mod');
+    is( exception{ $kytea->read_model('./model/test.mod') }, undef, 'read_model' );
+};
 
-my $results = $kytea->parse("コーパスの文です。");
-parse_test($results);
+subtest 'parse method' => sub {
+    my $kytea = Text::KyTea->new(model => './model/test.mod');
 
+    my $results;
+    is( exception { $results = $kytea->parse("コーパスの文です。") }, undef, 'parse normal string' );
+    cmp_ok(scalar @{$results}, '>', 0, 'result of parsing normal string');
+    parse_test($results);
 
-$results = $kytea->parse("");
-is(scalar @{$results}, 0, 'empty input');
-parse_test($results);
+    is( exception { $results = $kytea->parse("") }, undef, 'parse empty string' );
+    is(scalar @{$results}, 0, 'result of parsing emtry string');
+
+    warning_like { $results = $kytea->parse(undef) } qr/uninitialized value/, 'parse undefined string';
+    is(scalar @{$results}, 0, 'result of parsing undefined string');
+};
+
+subtest 'pron method' => sub {
+    my $kytea = Text::KyTea->new(model => './model/test.mod');
+
+    my $pron;
+
+    is( exception { $pron = $kytea->pron("コーパスの文です。") }, undef, 'pron of normal string' );
+    is($pron, 'こーぱすのぶんです。');
+
+    is( exception { $pron = $kytea->pron("") }, undef, 'pron of emtry string' );
+    is($pron, '');
+
+    warning_like { $pron = $kytea->pron(undef) } qr/uninitialized value/, 'pron of undefined string';
+    is($pron, '');
+};
 
 
 done_testing;

@@ -14,13 +14,13 @@ no_leaks_ok
 
 no_leaks_ok
 {
-    $kytea->parse("ほげほげ");
-} "parse normal string";
+    $kytea->read_model('./model/test.mod');
+} "read_model";
 
 no_leaks_ok
 {
-    $kytea->read_model('./model/test.mod');
-} "read_model";
+    $kytea->parse("ほげほげ");
+} "parse normal string";
 
 no_leaks_ok
 {
@@ -31,5 +31,10 @@ no_leaks_ok
 {
     $kytea->parse("ｈｕｇａ＃！＠＜＞\x{0000}\t\n");
 } "parse abnormal string";
+
+no_leaks_ok
+{
+    $kytea->pron("ｈｕｇａ＃！＠＜＞\x{0000}\t\n");
+} "pron";
 
 done_testing;

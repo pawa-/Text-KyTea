@@ -11,14 +11,16 @@ TYPEMAP
 text_kytea_TextKyTea *   O_OBJECT
 kytea_KyteaSentence      T_KYTEA_SENTENCE
 const char * const       T_PV
-
+std_string               T_STRING
 
 OUTPUT
-T_KYTEA_SENTENCE
+T_STRING
+    sv_setpvn( $arg, $var.c_str(), $var.length() );
 
+T_KYTEA_SENTENCE
     AV* av = (AV*)sv_2mortal( (SV*)newAV() );
 
-    kytea::StringUtil* util = THIS->_get_string_util();
+    kytea::StringUtil* util = THIS->util;
 
     const kytea::KyteaSentence::Words& words = $var.words;
 
@@ -28,8 +30,7 @@ T_KYTEA_SENTENCE
 
         std::string surface = util->showString(words[i].surface);
 
-        SV* sv = newSVpvn( surface.c_str(), surface.length() );
-        hv_store(hv, text_kytea::tkt_keys[0].c_str(), text_kytea::tkt_keys[0].length(), sv, 0);
+        hv_store(hv, text_kytea::tkt_keys[0].c_str(), text_kytea::tkt_keys[0].length(), newSVpvn( surface.c_str(), surface.length() ), 0);
 
         AV* tags = (AV*)sv_2mortal( (SV*)newAV() );
 
@@ -44,9 +45,8 @@ T_KYTEA_SENTENCE
                 std::string feature = util->showString(words[i].tags[j][k].first);
                 double score = words[i].tags[j][k].second;
 
-                sv = newSVpvn( feature.c_str(), feature.length() );
-                hv_store(tag, text_kytea::tkt_keys[1].c_str(), text_kytea::tkt_keys[1].length(), sv, 0);
-                hv_store(tag, text_kytea::tkt_keys[2].c_str(), text_kytea::tkt_keys[2].length(), newSVnv(score), 0);
+                hv_store(tag, text_kytea::tkt_keys[1].c_str(), text_kytea::tkt_keys[1].length(), newSVpvn( feature.c_str(), feature.length() ), 0);
+                hv_store(tag, text_kytea::tkt_keys[2].c_str(), text_kytea::tkt_keys[2].length(), newSVnv(score),                                0);
 
                 av_push( tag_pairs, newRV_inc((SV*)tag) );
             }

@@ -36,6 +36,9 @@ sub _options
         skipbound => '?',
         nobound   => '-',
         hasbound  => '|',
+
+        # Text::KyTea options
+        prontag_num => 1,
     };
 }
 
@@ -48,16 +51,17 @@ sub new
 
     for my $key (keys %args)
     {
-        if (!exists $options->{$key}) { Carp::croak "Unknown option '$key'";  }
-        else                          { $options->{$key} = $args{$key}; }
+        if ( ! exists $options->{$key} ) { Carp::croak "Unknown option: '$key'";  }
+        else                             { $options->{$key} = $args{$key};        }
     }
 
-    Carp::croak 'model file is not found' if ! -e $options->{model};
+    Carp::croak 'model file not found' unless -e $options->{model};
 
     return _init_text_kytea($class, $options);
 }
 
 1;
+
 __END__
 
 =encoding utf8
@@ -67,7 +71,7 @@ __END__
 Text::KyTea - Perl wrapper for KyTea
 
 =for test_synopsis
-my ($text, %config, $path);
+my ($text, %config);
 
 =head1 SYNOPSIS
 
@@ -104,7 +108,7 @@ This module works under KyTea Ver.0.4.2 and later.
 Under the old versions of KyTea, this module does not work!
 
 If you've changed the default install directory of KyTea,
-please install Text::KyTea with a interactive mode
+please install Text::KyTea in interactive mode
 (e.g., cpanm --interactive or cpanm -v).
 
 For more information about KyTea, please see the "SEE ALSO" section of this page.
@@ -112,28 +116,40 @@ For more information about KyTea, please see the "SEE ALSO" section of this page
 
 =head1 METHODS
 
-=head2 new(%config)
+=head2 $kytea = Text::KyTea->new(%config)
 
 Creates a new Text::KyTea instance.
 
   my $kytea = Text::KyTea->new(
-      model   => 'model.bin', # default is '/usr/local/share/kytea/model.bin'
-      notag   => [1,2],       # default is []
-      nounk   => 0,           # default is 0 (estimates the pronunciation of unkown words)
-      unkbeam => 50,          # default is 50
-      tagmax  => 3,           # default is 3
-      deftag  => 'UNK',       # default is 'UNK'
-      unktag  => '',          # default is ''
+      model       => 'model.bin', # default is "$INSTALL_DIRECTORY/share/kytea/model.bin"
+      notag       => [1,2],       # default is []
+      nounk       => 0,           # default is 0 (Estimates the pronunciation of unkown words.)
+      unkbeam     => 50,          # default is 50
+      tagmax      => 3,           # default is 3
+      deftag      => 'UNK',       # default is 'UNK'
+      unktag      => '',          # default is ''
+      prontag_num => 1,           # default is 1 (Normally no need to change the default value.)
   );
 
 
-=head2 parse($text)
+=head2 $results_arrayref = $kytea->parse($text)
 
-Parses the given text via KyTea, and returns the results of the analysis.
+Parses the given text via KyTea, and returns the results.
 The results are returned as an array reference.
 
 
-=head2 read_model($path)
+=head2 $pron = $kytea->pron( $text [, $replacement ] )
+
+Returns the estimated pronunciation of the given text.
+Unknown pronunciations are replaced with $replacement.
+
+If $replacement is not specified, unknown pronunciations
+are replaced with the original characters.
+
+This is the mere shortcut method.
+
+
+=head2 $kytea->read_model($path)
 
 Reads the given model file.
 The model file should be read by new(model => $path) method.

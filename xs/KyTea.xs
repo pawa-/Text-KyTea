@@ -17,12 +17,14 @@ extern "C" {
 #undef do_close
 #endif
 
+#include <cstddef> // size_t
 #include <string>
 #include <vector>
 #include "kytea/kytea.h"
 #include "kytea/kytea-struct.h"
 
-typedef kytea::KyteaSentence kytea_KyteaSentence;
+typedef kytea::KyteaSentence  kytea_KyteaSentence;
+typedef std::string           std_string;
 
 namespace text_kytea
 {
@@ -32,20 +34,21 @@ namespace text_kytea
     {
         private:
             kytea::Kytea          kytea;
-            kytea::StringUtil*    util;
             kytea::KyteaConfig*   config;
+            unsigned int          prontag_num;
+            std::string           deftag;
         public:
+            kytea::StringUtil*  util;
             void                read_model(const char* const model)  { kytea.readModel(model); }
-            kytea::StringUtil*  _get_string_util()                   { return util; }
 
             void _init
             (
                 const char* const model,       const bool nows,               const bool notags,
-                const std::vector<int> notag,  const bool nounk,              const unsigned int unkbeam,
+                const std::vector<unsigned int> notag,  const bool nounk,     const unsigned int unkbeam,
                 const unsigned int tagmax,     const char* const deftag,      const char* const unktag,
                 const char* const wordbound,   const char* const tagbound,    const char* const elembound,
                 const char* const unkbound,    const char* const skipbound,   const char* const nobound,
-                const char* const hasbound
+                const char* const hasbound,    const unsigned int prontag_num
             )
             {
                 read_model(model);
@@ -55,9 +58,9 @@ namespace text_kytea
                 config->setDoWS(!nows);
                 config->setDoTags(!notags);
 
-                std::vector<int>::const_iterator iter;
+                std::vector<unsigned int>::const_iterator iter;
                 for (iter = notag.begin(); iter != notag.end(); ++iter)
-                    if (*iter > 0) config->setDoTag( (*iter) - 1, false );
+                    config->setDoTag( (*iter) - 1, false );
 
                 config->setDoUnk(!nounk);
                 config->setUnkBeam(unkbeam);
@@ -71,6 +74,9 @@ namespace text_kytea
                 config->setSkipBound(skipbound);
                 config->setNoBound(nobound);
                 config->setHasBound(hasbound);
+
+                TextKyTea::prontag_num = prontag_num;
+                TextKyTea::deftag      = deftag;
             }
             kytea_KyteaSentence parse(const char* const text)
             {
@@ -83,10 +89,36 @@ namespace text_kytea
 
                 return sentence;
             }
+            std_string pron(const char* const text, const char* replacement = "")
+            {
+                kytea::KyteaString kytea_string = util->mapString(text);
+                kytea::KyteaSentence sentence( kytea_string, util->normalize(kytea_string) );
+                kytea.calculateWS(sentence);
+
+                kytea.calculateTags(sentence, prontag_num);
+
+                const kytea::KyteaSentence::Words& words = sentence.words;
+
+                std::string pron;
+
+                for (size_t i = 0; i < words.size(); ++i)
+                {
+                    std::string partial_pron = util->showString(words[i].tags[prontag_num][0].first);
+
+                    if (partial_pron != deftag) pron += partial_pron;
+                    else
+                    {
+                        if (replacement[0] == '\0') pron += util->showString(words[i].surface);
+                        else                        pron += replacement;
+                    }
+                }
+
+                return pron;
+            }
     };
 }
 
-typedef text_kytea::TextKyTea text_kytea_TextKyTea;
+typedef text_kytea::TextKyTea  text_kytea_TextKyTea;
 
 MODULE = Text::KyTea    PACKAGE = Text::KyTea
 
@@ -97,7 +129,7 @@ _init_text_kytea(const char* const CLASS, SV* args_ref)
     CODE:
         HV* hv    = (HV*)sv_2mortal( (SV*)newHV() );
         AV* notag = (AV*)sv_2mortal( (SV*)newAV() );
-        std::vector<int> notag_vec;
+        std::vector<unsigned int> notag_vec;
 
         hv    = (HV*)SvRV(args_ref);
         notag = (AV*)SvRV( *hv_fetchs(hv, "notag", FALSE) );
@@ -123,7 +155,8 @@ _init_text_kytea(const char* const CLASS, SV* args_ref)
             SvPV_nolen( *hv_fetchs(hv, "unkbound",  FALSE) ),
             SvPV_nolen( *hv_fetchs(hv, "skipbound", FALSE) ),
             SvPV_nolen( *hv_fetchs(hv, "nobound",   FALSE) ),
-            SvPV_nolen( *hv_fetchs(hv, "hasbound",  FALSE) )
+            SvPV_nolen( *hv_fetchs(hv, "hasbound",  FALSE) ),
+            SvUV( *hv_fetchs(hv, "prontag_num",  FALSE) )
         );
 
         RETVAL = tkt;
@@ -137,3 +170,6 @@ text_kytea_TextKyTea::read_model(const char* const model)
 
 kytea_KyteaSentence
 text_kytea_TextKyTea::parse(const char* const text)
+
+std_string
+text_kytea_TextKyTea::pron(const char* const text, const char* replacement = "")

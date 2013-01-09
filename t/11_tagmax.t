@@ -10,7 +10,7 @@ my $kytea = Text::KyTea->new(
 
 tagmax_test( $kytea->parse("コーパスの文です。") );
 tagmax_test( $kytea->parse("もうひとつの文です。") );
-
+is($kytea->pron("コーパスの文です。"), 'こーぱすのぶんです。');
 
 done_testing;
 
@@ -21,10 +21,10 @@ sub tagmax_test
 
     for my $result (@{$results})
     {
-        my $p_of_s_tag = $result->{tags}[0];
-        is(scalar @{$p_of_s_tag}, 1);
+        my $pos_tag = $result->{tags}[0];
+        is(scalar @{$pos_tag}, 1);
 
-        my $pron = $result->{tags}[1];
-        is(scalar @{$pron}, 1);
+        my $pron_tag = $result->{tags}[1];
+        is(scalar @{$pron_tag}, 1);
     }
 }
