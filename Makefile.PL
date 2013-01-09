@@ -104,7 +104,7 @@ sub rewrite_model_path
 {
     my $pm_path = './lib/Text/KyTea.pm';
 
-    open(my $in, '<', $pm_path) or $!;
+    open(my $in, '<', $pm_path) or die $!;
     my @lines = <$in>;
     close($in);
 
@@ -117,7 +117,7 @@ sub rewrite_model_path
         }
     }
 
-    open(my $out, '>', $pm_path) or $!;
+    open(my $out, '>', $pm_path) or die $!;
     print {$out} @lines;
     close($out);
 }
