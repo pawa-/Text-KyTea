@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::KyTea
 
+0.42    Wed, 09 Jan 2013 18:29:15 +0900
+        - Added pron method
+        - Improved Makefile.PL
+
 0.41    Fri, 28 Sep 2012 17:10:46 +0900
         - improved Makefile.PL
 
