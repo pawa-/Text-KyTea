@@ -20,8 +20,9 @@ extern "C" {
 #include <cstddef> // size_t
 #include <string>
 #include <vector>
-#include "kytea/kytea.h"
-#include "kytea/kytea-struct.h"
+#include <kytea/kytea.h>
+#include <kytea/kytea-struct.h>
+#include <kytea/string-util.h>
 
 typedef kytea::KyteaSentence  kytea_KyteaSentence;
 typedef std::string           std_string;
