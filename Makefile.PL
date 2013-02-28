@@ -73,7 +73,7 @@ sub train_kytea
 
     die "Is '$INSTALL_DIR' the correct path to the install directory of KyTea?" if $ret != 0;
 
-    print "Training kytea done!\n";
+    print "Training kytea... done!\n";
     print "\n";
 }
 
@@ -104,6 +104,9 @@ sub check_version
 
 sub rewrite_model_path
 {
+    print "\n";
+    print "Setting the path to the default model of KyTea...\n";
+
     my $pm_path = './lib/Text/KyTea.pm';
 
     open(my $in, '<', $pm_path) or die $!;
@@ -122,4 +125,7 @@ sub rewrite_model_path
     open(my $out, '>', $pm_path) or die $!;
     print {$out} @lines;
     close($out);
+
+    print "Setting the path to the default model of KyTea... done!\n";
+    print "\n";
 }
