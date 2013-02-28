@@ -67,8 +67,8 @@ METHODS
     This is the mere shortcut method.
 
   $kytea->read_model($path)
-    Reads the given model file. The model file should be read by new(model
-    => $path) method.
+    Reads the given model file. Model files should be read by new(model =>
+    $path) method.
 
     Model files are available at <http://www.phontron.com/kytea/model.html>.
 
