@@ -36,6 +36,9 @@ subtest 'parse method' => sub {
 
     warning_like { $results = $kytea->parse(undef) } qr/uninitialized value/, 'parse undefined string';
     is(scalar @{$results}, 0, 'result of parsing undefined string');
+
+    is( exception { $results = $kytea->parse(0) }, undef, 'parse zero' );
+    is(scalar @{$results}, 1, 'result of parsing zero');
 };
 
 subtest 'pron method' => sub {
@@ -51,6 +54,9 @@ subtest 'pron method' => sub {
 
     warning_like { $pron = $kytea->pron(undef) } qr/uninitialized value/, 'pron of undefined string';
     is($pron, '');
+
+    is( exception { $pron = $kytea->pron(0) }, undef, 'pron of zero' );
+    isnt($pron, '');
 };
 
 
