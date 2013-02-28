@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::KyTea
 
+0.44    Thu, 28 Feb 2013 12:00:13 +0900
+        - Compatibility with KyTea 0.4.4
+
 0.43    Wed, 09 Jan 2013 21:36:57 +0900
         - Fixed typo
 
